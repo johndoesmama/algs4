@@ -10,13 +10,13 @@ public class Fast {
         StdDraw.setYscale(0, 32768);
         StdDraw.setPenColor(StdDraw.BOOK_BLUE);
         StdDraw.show(0);
-        StdDraw.setPenRadius(0.004);  // make the points a bit larger
+        StdDraw.setPenRadius(0.008); // make the points a bit larger
 		
 		for (int i = 0; i < N; i++) {
 			if (!in.isEmpty()) {
 				int x = in.readInt();
 				int y = in.readInt();
-				pOrig[i] = new Point(x,y);
+				pOrig[i] = new Point(x, y);
 				pOrig[i].draw();
 			}
 		}
@@ -36,7 +36,7 @@ public class Fast {
             }
         	
         	// sort (shell sort) points in p based on slopeTo p
-        	int h=1;
+        	int h = 1;
         	int n = N-k;
             while (h < n/3) h = 3*h + 1;
             
@@ -45,7 +45,7 @@ public class Fast {
 
             	for (int i = h; i < n; i++) {
             		//System.out.println("i=" + i);
-            		for (int j = i; j >=h && (p[0].SLOPE_ORDER.compare(p[j], p[j-h]) < 0); j=j-h) {
+            		for (int j = i; j >= h && (p[0].SLOPE_ORDER.compare(p[j], p[j-h]) < 0); j = j-h) {
             			//System.out.println("j=" + j);
             			
             			// exchange
@@ -56,41 +56,63 @@ public class Fast {
             		}
             	} // end of exchanges for h value
             	
-            	/*
-            	// print sorted array at each h-sort iteration
-            	System.out.print("\nh = " + h + ": ");
-            	for (int i = 0; i < n; i++) {
-            		//System.out.print(p[i].toString() + " -> ");
-            		System.out.print(p[0].slopeTo(p[i]) + " -> ");
-            	}
-            	System.out.println("");
-            	*/
-            	
             	h = h/3; // decrement h
             	
             } // end of h-sort iteration
             
-            // find collinear points and draw line segments
-            for (int i = 3; i < n; i++) {
-            	if (p[0].slopeTo(p[i]) == p[0].slopeTo(p[i-1]) &&
-            		p[0].slopeTo(p[i]) == p[0].slopeTo(p[i-2])) {
+            /*
+             * find collinear points and draw line segments
+             */
+            int i;
+            for (i = 3; i < n; i++) {
+            	if (p[0].slopeTo(p[i]) == p[0].slopeTo(p[i-1]) 
+            		&& p[0].slopeTo(p[i]) == p[0].slopeTo(p[i-2])) {
             		
+            		// more than 4 points?
+            		int d;
+            		for (d = i+1; d < n; d++) {
+            			if (p[0].slopeTo(p[d]) != p[0].compareTo(p[i]))
+            				break;
+            		}
+            		i = d-1;
+            		
+            		// draw line segment for all collinear points identified
+            		int[] ind = new int[d-(i-2)+1]; // set up indices
+            		Point[] pTemp = new Point[ind.length];
+            		
+            		ind[0] = 0;
+            		pTemp[0] = p[ind[0]];
+            		for (int z = 1; z < ind.length; z++) {
+            			ind[z] = (z-1) + (i-2);
+            			pTemp[z] = p[ind[z]];
+            		}
+            		
+            		/*
             		// 4 collinear points, draw line segment
             		int[] ind = {0, i, i-1, i-2};
-            		int min = ind[0];
-    				int max = ind[0];
-    				for (int x = 1; x < ind.length; x++) {
-    					if (p[ind[x]].compareTo(p[min]) == -1)
-    						min = ind[x];
-    					if (p[ind[x]].compareTo(p[max]) == 1)
-    						max = ind[x];
-    				}
-    									
-    				p[min].drawTo(p[max]);
-					System.out.println(p[0].toString() + " -> " + p[i].toString() + 
-							" -> " + p[i-1].toString() + " -> " + p[i-2].toString());
+            		
+            		Point[] pTemp = new Point[ind.length];
+					for (int z = 0; z < ind.length; z++)
+						pTemp[z] = p[ind[z]];
+					*/
 					
-            	} 
+            		// sort collinear points lexicographically
+					for (int x = 1; x < ind.length; x++) {
+						for (int y = x; y > 0; y--) {
+							if (pTemp[y].compareTo(pTemp[y-1]) == -1) {
+								Point pSwap = new Point(0, 0);
+								pSwap = pTemp[y];
+								pTemp[y] = pTemp[y-1];
+								pTemp[y-1] = pSwap;
+							}
+						}
+					}
+					pTemp[0].drawTo(pTemp[ind.length-1]);
+					System.out.print(pTemp[0].toString());
+					for (int z = 1; z < ind.length; z++)
+						System.out.print(" -> " + pTemp[z].toString());
+					System.out.println("");
+            	}
             } // end of i loop (collinear points line segment)
         } // end of k loop
         
