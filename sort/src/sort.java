@@ -1,11 +1,12 @@
 
 public class sort {
 
-	private int compares, exchanges; 
+	private int compares, exchanges, merges; 
 	
 	public sort() {
 		compares = 0;
 		exchanges = 0;
+		merges = 0;
 		
 	} // end of constructor
 	
@@ -15,6 +16,10 @@ public class sort {
 	
 	public int getCompares() {
 		return compares;
+	}
+	
+	public int getMerges() {
+		return merges;
 	}
 	
 	public void exch(int[] a, int i, int j) {
@@ -79,6 +84,46 @@ public class sort {
 		}
 	}
 	
+	public void merge(int[] a, int[] aux, int lo, int mid, int hi) {
+		merges++;
+		for (int i = lo; i <= hi; i++)
+			aux[i] = a[i];
+		
+		int i = lo, j = mid + 1;
+		for (int k = lo; k <= hi; k++){
+			if (i > mid)					a[k] = aux[j++];
+			else if (j > hi)				a[k] = aux[i++];
+			else if (less(aux[j], aux[i]))	a[k] = aux[j++];
+			else							a[k] = aux[i++];
+		}
+		
+		System.out.print("\nmerges = " + getMerges() + " :");
+		for (int k = 0; k < a.length; k++)
+			System.out.print(" " + a[k]);
+		//System.out.println("");
+	}
+	
+	public void msort(int[] a, int[] aux, int lo, int hi) {
+		if (hi <= lo) return;
+		int mid = lo + (hi - lo) / 2;
+		msort(a, aux, lo, mid);
+		msort(a, aux, mid+1, hi);
+		merge(a, aux, lo, mid, hi);
+	}
+	
+	public void mergesort(int[] a) {
+		int[] aux = new int[a.length];
+		msort(a, aux, 0, aux.length-1);
+	}
+	
+	public void BUmergesort(int[] a) {
+		int N = a.length;
+		int[] aux = new int[N];
+		for (int sz = 1; sz < N; sz = sz+sz)
+			for (int lo = 0; lo < N-sz; lo += sz+sz)
+				merge(a, aux, lo, lo+sz-1, Math.min(lo+sz+sz-1, N-1));
+	}
+	
 	public static void main(String[] args) {
 		
 		sort s = new sort();
@@ -87,7 +132,9 @@ public class sort {
 		for (int k = 0; k < args.length; k++)
 			a[k] = Integer.parseInt(args[k]);
 		
-		s.insertion(a);
+		//s.insertion(a);
 		//s.shellsort(a);
+		//s.mergesort(a);
+		s.BUmergesort(a);
 	}
 }
