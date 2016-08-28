@@ -120,7 +120,7 @@ public class BasicSorts<Item extends Comparable<Item>> {
      * selection sort
      */
     public void selectionSort() {
-    	for (int i=1; i<pq.length; i++) {
+    	for (int i=0; i<pq.length; i++) {
     		int min = i;
     		for (int j=i+1; j<N; j++) {
     			if (less(pq, j, min))
@@ -136,7 +136,7 @@ public class BasicSorts<Item extends Comparable<Item>> {
      * insertion sort
      */
 	public void insertionSort() {
-		for (int i = 1; i < pq.length; i++) {
+		for (int i = 0; i < pq.length; i++) {
 			for (int j = i; j > 0; j--) {
 				if (less(pq, j, j-1)) {
 					exch(pq, j, j-1);
