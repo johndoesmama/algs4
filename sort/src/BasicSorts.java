@@ -117,6 +117,22 @@ public class BasicSorts<Item extends Comparable<Item>> {
     } // end of printArr
     
     /**
+     * selection sort
+     */
+    public void selectionSort() {
+    	for (int i=1; i<pq.length; i++) {
+    		int min = i;
+    		for (int j=i+1; j<N; j++) {
+    			if (less(pq, j, min))
+    				min = j;
+    		}
+    		exch(pq, i, min);
+    		System.out.print("\nexchange=" + getExchanges() + " :");
+    		printArr();
+    	}
+    } // end of selectionSort
+    
+    /**
      * insertion sort
      */
 	public void insertionSort() {

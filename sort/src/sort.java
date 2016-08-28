@@ -7,6 +7,18 @@ public class sort {
 	 * pretty print method
 	 */
 	private void printPretty(String s) { System.out.println("\n\n----\nTEST CLIENT FOR " + s + "..."); } // end of printPretty
+
+	/**
+	 * test client for insertion sort
+	 */
+	public void testSelectionSort(String[] args) {
+		printPretty("SELECTION SORT");
+		BasicSorts<Integer> a = new BasicSorts<Integer>(args.length);
+		for (int k = 0; k < args.length; k++)
+			a.insert(Integer.parseInt(args[k]));
+		a.selectionSort();
+		
+	} // end of testSelectionSort
 	
 	/**
 	 * test client for insertion sort
@@ -106,11 +118,12 @@ public class sort {
 	 */
 	public static void main(String[] args) {
 		sort s = new sort();
+		s.testSelectionSort(args);
 		s.testInsertionSort(args);
 		s.testShellSort(args);
 		s.testMergeSort(args);
 		s.testBottomUpMergeSort(args);
 		s.testQuickSort(args);
-		s.testBinaryHeap(args);		
+		s.testBinaryHeap(args);	
 	}
 }
