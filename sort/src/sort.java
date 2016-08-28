@@ -9,7 +9,7 @@ public class sort {
 	private void printPretty(String s) { System.out.println("\n\n----\nTEST CLIENT FOR " + s + "..."); } // end of printPretty
 
 	/**
-	 * test client for insertion sort
+	 * test client for selection sort
 	 */
 	public void testSelectionSort(String[] args) {
 		printPretty("SELECTION SORT");
