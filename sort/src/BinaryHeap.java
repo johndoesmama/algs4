@@ -101,9 +101,10 @@ public class BinaryHeap<Item extends Comparable<Item>> {
     		throw new java.lang.NullPointerException("attempting to add null item");
     	
     	if (isOutOfMemory()) resize(2*pq.length);
-    	System.out.println("inserting " + item + "...");
+    	System.out.print("inserting " + item + " | ");
     	pq[++N] = item;
     	swim(N);
+    	printHeap();
     	
     } // end of insert
     
@@ -127,11 +128,11 @@ public class BinaryHeap<Item extends Comparable<Item>> {
     	if (isEmpty())
     		throw new java.util.NoSuchElementException("attempting to pop from an empty queue");
     	
-    	System.out.println("deleting max...");
+    	//System.out.println("deleting max...");
     	Item max = pq[1];
     	exch(1, N--);
     	sink(1);
-    	pq[N+1] = null;
+    	//pq[N+1] = null;
     	return max;
     	
     } // end of delMax
@@ -141,9 +142,33 @@ public class BinaryHeap<Item extends Comparable<Item>> {
      */
     public void printHeap() {
     	StdOut.print("heap:");
-    	for (int i = 0; i <= N; i++) {
+    	for (int i=1; i <= N; i++) {
     		StdOut.print(" " + pq[i]);
     	}
+    	StdOut.print("\n");
+    }
+    
+    /**
+     * heap sort
+     */
+    public void sortedHeap() {
+    	for (int i=N; i>0; i--)
+    		sink(i);
+    	printHeap();
+    }
+    
+    /**
+     * pop sorted heap
+     */
+    public void popSortedHeap() {
+    	StdOut.print("Popping heap | ");
+    	int m=N;
+    	for (int i=N; i>0; i--)
+    		delMax();
+    	
+    	StdOut.print("heap:");
+    	for (int i=1; i <= m; i++)
+    		StdOut.print(" " + pq[i]);
     	StdOut.println("\n");
     }
     

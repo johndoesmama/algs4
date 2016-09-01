@@ -6,7 +6,10 @@ public class sort {
 	/**
 	 * pretty print method
 	 */
-	private void printPretty(String s) { System.out.println("\n\n----\nTEST CLIENT FOR " + s + "..."); } // end of printPretty
+	private void printPretty(String s) {
+		System.out.println("\n\n----\nTEST CLIENT FOR " + s + "...");
+		
+	} // end of printPretty
 
 	/**
 	 * test client for selection sort
@@ -98,17 +101,12 @@ public class sort {
 			bh.insertInPosition(a[k], k);
 		}
 		
-		bh.printHeap();
+		System.out.print("sorting heap | ");
+		bh.sortedHeap();
 		bh.insert(88);
-		bh.insert(81);
-		bh.insert(37);
-		bh.printHeap();
-		
-		bh.printHeap();
-		bh.delMax();
-		bh.delMax();
-		bh.delMax();
-		bh.printHeap();
+		bh.insert(91);
+		bh.insert(82);
+		bh.popSortedHeap();
 
 	} // end of testBinaryHeap
 	
@@ -124,6 +122,6 @@ public class sort {
 		s.testMergeSort(args);
 		s.testBottomUpMergeSort(args);
 		s.testQuickSort(args);
-		s.testBinaryHeap(args);	
+		s.testBinaryHeap(args);
 	}
 }
