@@ -267,7 +267,7 @@ public class BasicSorts<Item extends Comparable<Item>> {
 	public void quickSort(int lo, int hi) {
 		if (hi <= lo) return;
 		int j = partition(lo, hi);
-		System.out.print("after partition...");
+		System.out.print("after partition at pos " + j + ": ");
 		printArr();
 		System.out.println("");
 		quickSort(lo, j-1);
