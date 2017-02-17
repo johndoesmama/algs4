@@ -1,5 +1,7 @@
 import java.util.Iterator;
 
+import edu.princeton.cs.algs4.StdOut;
+
 /**
  * 
  * @author rangasayee.lalgudi
