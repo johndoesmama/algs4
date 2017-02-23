@@ -15,14 +15,19 @@ public class Outcast {
         if (nouns == null)
             throw new java.lang.NullPointerException();
         
-        int distance = 0;
+        int distance;
         int max = 0;
         String outcast = "0";
         for (String n1 : nouns) {
+        	distance = 0;
             for (String n2 : nouns) {
-                if (n1 != n2)
-                    distance += wnet.distance(n1, n2);
+                if (n1 != n2) {
+                    int d = wnet.distance(n1, n2);
+                    distance += d;
+                    // StdOut.println(n1 + ", " + n2 + " : " + d);
+                }
             }
+            // StdOut.println(n1 + " total distance: " + distance + "\n");
             if (distance > max) {
                 max = distance;
                 outcast = n1;
