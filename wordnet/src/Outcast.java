@@ -17,20 +17,31 @@ public class Outcast {
         
         int distance;
         int max = 0;
+        boolean earlyFind = false;
         String outcast = "0";
         for (String n1 : nouns) {
         	distance = 0;
+        	if (earlyFind)
+        		continue;
             for (String n2 : nouns) {
-                if (n1 != n2) {
+                if ( (n1 != n2) && !earlyFind ) {
                     int d = wnet.distance(n1, n2);
+                    
+                    if (d == -1) {
+                    	// if no SAP exists, outcast already found
+                    	earlyFind = true;
+                    	outcast = n1;
+                    }
+
                     distance += d;
                     // StdOut.println(n1 + ", " + n2 + " : " + d);
                 }
             }
-            // StdOut.println(n1 + " total distance: " + distance + "\n");
+            // StdOut.println("total distance(" + n1 + "): " + distance);
             if (distance > max) {
                 max = distance;
                 outcast = n1;
+                // StdOut.println("outcast updated: " + n1);
             }
         }
         return outcast;
