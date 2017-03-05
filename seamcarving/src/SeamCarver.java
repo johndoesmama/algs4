@@ -1,15 +1,17 @@
 import edu.princeton.cs.algs4.Picture;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.awt.Color;
 
 public class SeamCarver {
+
+    // static variables
+    private final static boolean HORIZONTAL = false;
+    private final static boolean VERTICAL = true;    
     
+    // instance variables
     private Picture p;  // current picture
     private double[][] energyTo;
     private int[][] edgeTo;
-    private static final boolean HORIZONTAL = false;
-    private static final boolean VERTICAL = true;
     
     public SeamCarver(Picture picture) {
         // create a seam carver object based on the given picture
@@ -17,7 +19,7 @@ public class SeamCarver {
         if (picture == null)
             throw new java.lang.NullPointerException();
             
-        this.p = picture;
+        p = new Picture(picture);
     }
     
     public Picture picture() {
@@ -267,6 +269,16 @@ public class SeamCarver {
         if ((seamType == VERTICAL && this.width() <= 1) ||
             (seamType == HORIZONTAL && this.height() <= 1))
             throw new java.lang.IllegalArgumentException();
+        
+        for (int i = 0; i < seam.length; i++) {
+            if (seam[i] < 0 || 
+                (seamType == VERTICAL && seam[i] >= this.width()) || 
+                (seamType == HORIZONTAL && seam[i] >= this.height()))
+                throw new java.lang.IllegalArgumentException();
+            
+            if (i > 0 && Math.abs(seam[i] - seam[i-1]) > 1)
+                throw new java.lang.IllegalArgumentException();
+        }
     }
     
     public    void removeHorizontalSeam(int[] seam) {
