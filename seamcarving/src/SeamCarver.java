@@ -15,7 +15,6 @@ public class SeamCarver {
     
     public SeamCarver(Picture picture) {
         // create a seam carver object based on the given picture
-        
         if (picture == null)
             throw new java.lang.NullPointerException();
             
@@ -24,7 +23,8 @@ public class SeamCarver {
     
     public Picture picture() {
         // current picture
-        return p;
+        Picture pic = new Picture(this.p);
+        return pic;
     }
     
     public     int width() {
