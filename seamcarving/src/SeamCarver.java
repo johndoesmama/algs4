@@ -5,8 +5,8 @@ import java.awt.Color;
 public class SeamCarver {
 
     // static variables
-    private final static boolean HORIZONTAL = false;
-    private final static boolean VERTICAL = true;    
+    private static final boolean HORIZONTAL = false;
+    private static final boolean VERTICAL = true;    
     
     // instance variables
     private Picture p;  // current picture
