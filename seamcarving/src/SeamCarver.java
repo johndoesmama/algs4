@@ -1,4 +1,6 @@
 import edu.princeton.cs.algs4.Picture;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.awt.Color;
 
 public class SeamCarver {
@@ -11,6 +13,10 @@ public class SeamCarver {
     
     public SeamCarver(Picture picture) {
         // create a seam carver object based on the given picture
+        
+        if (picture == null)
+            throw new java.lang.NullPointerException();
+            
         this.p = picture;
     }
     
@@ -31,18 +37,18 @@ public class SeamCarver {
     
     private int isBorderCol(int a) {
         // check if Col is on any border
-        if ( a < (p.width() - 1) && a > 0)
+        if (a < (p.width() - 1) && a > 0)
             return 0;
-        if ( a == 0 )
+        if (a == 0)
             return -1;  // leftmost column
         return 1;   // rightmost column
     }
     
     private int isBorderRow(int a) {
         // check if Row is on any border
-        if ( a < (p.height() - 1) && a > 0)
+        if (a < (p.height() - 1) && a > 0)
             return 0;
-        if ( a == 0)
+        if (a == 0)
             return -1;  // top row
         return 1; // bottom row
     }
@@ -109,7 +115,7 @@ public class SeamCarver {
         // energy of pixel at column x and row y
         
         // check that x & y are within bounds
-        if ( x < 0 || x >= this.width() || y < 0 || y >= this.height() )
+        if (x < 0 || x >= this.width() || y < 0 || y >= this.height())
             throw new java.lang.IndexOutOfBoundsException();
         
         // force energy of border pixels to 1000.0
@@ -123,6 +129,9 @@ public class SeamCarver {
     }
     
     private void relax(int x1, int y1, int x2, int y2) {
+        if (x2 < 0 || x2 >= this.width() || y2 < 0 || y2 >= this.height())
+            return;
+            
         if (energyTo[x2][y2] > energyTo[x1][y1] + energy(x2, y2)) {
             energyTo[x2][y2] = energyTo[x1][y1] + energy(x2, y2);
             edgeTo[x2][y2] = x1;
@@ -182,8 +191,8 @@ public class SeamCarver {
     public   int[] findVerticalSeam() {
         // sequence of indices for vertical seam
         
-        energyTo = new double[p.width()][p.height()];
-        edgeTo = new int[p.width()][p.height()];
+        energyTo = new double[this.width()][this.height()];
+        edgeTo = new int[this.width()][this.height()];
         
         // initialize energyTo of first row to 1000.0 
         for (int col = 0; col < p.width(); col++) {
@@ -248,17 +257,15 @@ public class SeamCarver {
         
         // Throw a java.lang.IllegalArgumentException if removeVerticalSeam() or removeHorizontalSeam() 
         // is called with an array of the wrong length or if the array is not a valid seam
-        if ( ( seamType == VERTICAL && seam.length != this.height() ) ||
-             ( seamType == HORIZONTAL && seam.length != this.width() ) 
-           )   
+        if ((seamType == VERTICAL && seam.length != this.height()) ||
+            (seamType == HORIZONTAL && seam.length != this.width()))   
             throw new java.lang.IllegalArgumentException();
 
         // Throw a java.lang.IllegalArgumentException 
         // if removeVerticalSeam() is called when the width of the picture is less than or equal to 1 or 
         // if removeHorizontalSeam() is called when the height of the picture is less than or equal to 1
-        if ( ( seamType == VERTICAL && this.width() <= 1 ) ||
-             ( seamType == HORIZONTAL && this.height() <= 1 )
-           )
+        if ((seamType == VERTICAL && this.width() <= 1) ||
+            (seamType == HORIZONTAL && this.height() <= 1))
             throw new java.lang.IllegalArgumentException();
     }
     
@@ -293,6 +300,7 @@ public class SeamCarver {
             for (int col = seam[row]; col < orig.width() - 1; col++)
                 carved.set(col, row, orig.get(col+1, row));
         }
+        this.p = carved;
     }
     
     public static void main(String[] args) {
